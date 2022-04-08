@@ -62,4 +62,64 @@ RSpec.describe "Animals", type: :request do
       expect(animals).to be_empty
     end
   end
+  describe 'POST /create' do
+    it "doesn't create an animal without a name" do
+      animal_params = {
+        animal: {
+          age: 2,
+          enjoys: 'Walks in the park',
+          image: 'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1036&q=80'
+        }
+      }
+      post '/animals', params: animal_params
+      expect(response.status).to eq 422
+      animal = JSON.parse(response.body)
+      expect(animal['name']).to include "can't be blank"
+    end
+  end
+  describe 'POST /create' do
+    it "doesn't create an animal without a age" do
+      animal_params = {
+        animal: {
+          name: 'Felix',
+          enjoys: 'Walks in the park',
+          image: 'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1036&q=80'
+        }
+      }
+      post '/animals', params: animal_params
+      expect(response.status).to eq 422
+      animal = JSON.parse(response.body)
+      expect(animal['age']).to include "can't be blank"
+    end
+  end
+  describe 'POST /create' do
+    it "doesn't create an animal without an enjoys" do
+      animal_params = {
+        animal: {
+          name: 'Felix',
+          age: 2,
+          image: 'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1036&q=80'
+        }
+      }
+      post '/animals', params: animal_params
+      expect(response.status).to eq 422
+      animal = JSON.parse(response.body)
+      expect(animal['enjoys']).to include "can't be blank"
+    end
+  end
+  describe 'POST /create' do
+    it "doesn't create an animal without an image" do
+      animal_params = {
+        animal: {
+          name: 'Felix',
+          age: 2,
+          enjoys: 'Walks in the park'
+        }
+      }
+      post '/animals', params: animal_params
+      expect(response.status).to eq 422
+      animal = JSON.parse(response.body)
+      expect(animal['image']).to include "can't be blank"
+    end
+  end
 end  
